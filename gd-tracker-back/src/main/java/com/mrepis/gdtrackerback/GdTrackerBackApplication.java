@@ -1,0 +1,13 @@
+package com.mrepis.gdtrackerback;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class GdTrackerBackApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(GdTrackerBackApplication.class, args);
+    }
+
+}
