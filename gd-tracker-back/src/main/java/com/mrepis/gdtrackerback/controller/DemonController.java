@@ -7,7 +7,7 @@ import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/demons")
+@RequestMapping("/demons")
 public class DemonController {
     private final DemonRepository demonRepository;
     private final DemonService demonService;
