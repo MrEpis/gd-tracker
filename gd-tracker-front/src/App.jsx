@@ -1,42 +1,46 @@
+import { useEffect, useState} from "react";
+import { demonService} from "./services/api.js";
+import StatsScreen from "./features/StatsScreen.jsx";
+import TopBar from "./components/TopBar.jsx";
+
 function App() {
+    const [demons, setDemons] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [viewingStats, setViewingStats] = useState(false);
+
+    useEffect(() => {
+        loadDemons();
+    }, []);
+
+    const loadDemons = async () => {
+        try {
+            setLoading(true);
+            const response = await demonService.getAll();
+            setDemons(response.data);
+        } catch (error) {
+            console.error("error while loading demons:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    function toggleViewingStats() {
+        setViewingStats(!viewingStats);
+    }
 
   return (
     <>
-        <h1 className="text-3xl">Geometry Dash Progression Tracker</h1>
-        <div className="overflow-x-auto bg-slate-900 p-6 text-slate-400">
-            <table className="w-full text-left border-collapse">
-                <thead>
-                <tr className="border-b border-slate-700 text-slate-400">
-                    <th className="p-3">Rank</th>
-                    <th className="p-3">Name</th>
-                    <th className="p-3">Creator(s)</th>
-                    <th className="p-3">Attempts</th>
-                    <th className="p-3">Enjoyment</th>
-                    <th className="p-3">Completion Date</th>
-                    <th className="p-3">Notes</th>
-                </tr>
-                </thead>
-                <tbody className="text-white">
-                    <tr className="border-b border-slate-800 hover:bg-slate-800 transition">
-                        <td className="p-3">1</td>
-                        <td className="p-3 font-semibold text-red-400">Bloodbath</td>
-                        <td className="p-3">Riot & more</td>
-                        <td className="p-3 text-slate-300">20,562</td>
-                        <td className="p-3">55</td>
-                        <td className="p-3">24/05/2021</td>
-                        <td className="p-3">My hardest for nearly 4 years.</td>
-                    </tr>
-                    <tr className="border-b border-slate-800 hover:bg-slate-800 transition">
-                        <td className="p-3">2</td>
-                        <td className="p-3 font-semibold text-red-400">Cataclysm</td>
-                        <td className="p-3">GBoy</td>
-                        <td className="p-3 text-slate-300">6,000</td>
-                        <td className="p-3">41</td>
-                        <td className="p-3">06/02/2021</td>
-                        <td className="p-3">Former hardest</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className="min-h-screen bg-neutral-800 text-slate-50 p-4 md:p-8">
+            <header className="max-w-6xl mx-auto mb-10">
+                <h1 className="text-4xl font-black tracking-tighter text-amber-500">
+                    Geometry Dash Progression Tracker
+                </h1>
+                <p className="text-slate-400 mt-2">Track your progression easily!</p>
+            </header>
+
+            <main className="max-w-6xl mx-auto space-y-8">
+                <TopBar viewingStats={viewingStats} onClick={toggleViewingStats} />
+            </main>
         </div>
     </>
   )
